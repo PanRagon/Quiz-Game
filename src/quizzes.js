@@ -16,7 +16,7 @@ const quizzes = [
     }
 ];
 
-const getRandomQuizzes = (count) => {
+function getRandomQuizzes(count) {
     if(count > quizzes.length) {
         throw new Error("We don't have that many quizzes available, there are only " + quizzes.length + " available");
     } else if(count <= 0) {
@@ -34,5 +34,5 @@ const getRandomQuizzes = (count) => {
         return chosenQuizzes;
     }
 }
-let newQuizArray = getRandomQuizzes(44);
-console.log(newQuizArray[0]);
+
+module.exports.getRandomQuizzes = getRandomQuizzes;

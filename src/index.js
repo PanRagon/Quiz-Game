@@ -1,3 +1,7 @@
+const quizzes = require("./quizzes");
+
+const quizzesArr = quizzes.getRandomQuizzes(2);
+
 let guessed = false;
 let correctAnswer;
 const questionDiv = document.getElementById("question");
