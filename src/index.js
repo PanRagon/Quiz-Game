@@ -1,21 +1,3 @@
-const quizzes = [
-    {
-        question: "Who created Javascript?",
-        answers: ["Brendan Eich", "Jacob Eich", "Brandon Lake", "James Gosling"],
-        correctAnswer: 0
-    },
-    {
-        question: "What company owns Github?",
-        answers: ["Apple", "Amazon", "Microsoft", "Git"],
-        correctAnswer: 2
-    },
-    {
-        question: "Who's Joe?",
-        answers: ["Joe Pesci", "Joe Mama!", "Joseph Stalin", "Joe Biden"],
-        correctAnswer: 1
-    }
-]
-
 let guessed = false;
 let correctAnswer;
 const questionDiv = document.getElementById("question");
@@ -32,8 +14,8 @@ function giveQuestion() {
     let quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
     correctAnswer = quiz.correctAnswer;
     questionDiv.innerText = quiz.question;
-    let answersDivs = answerAlternatives.children
-    for(let i = 0; i < answersDivs.length; i++) {
+    let answersDivs = answerAlternatives.children;
+    for (let i = 0; i < answersDivs.length; i++) {
         answersDivs[i].innerText = quiz.answers[i];
         answersDivs[i].onclick = () => verifyAnswer(i);
     }
@@ -41,8 +23,8 @@ function giveQuestion() {
 }
 
 function verifyAnswer(answer) {
-    if(guessed === false) {
-        if(answer === correctAnswer) {
+    if (guessed === false) {
+        if (answer === correctAnswer) {
             result.innerText = "That's correct, good job!"
         } else {
             result.innerText = "Sorry, you guessed wrong, try a new question!"
