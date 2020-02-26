@@ -17,15 +17,17 @@ const quizzes = [
 ];
 
 function getRandomQuizzes(count) {
-    if(count > quizzes.length) {
+    count = parseInt(count);
+    if(count === "NaN") {
+        throw new Error("Please enter a valid number");
+    } else if(count > quizzes.length) {
         throw new Error("We don't have that many quizzes available, there are only " + quizzes.length + " available");
     } else if(count <= 0) {
         throw "Haha... Please enter a positive number";
     } else {
         let chosenQuizzes = [];
         let tempQuizzes = quizzes;
-        const runs = count;
-        for(let i= 0; i < runs; i++) {
+        for(let i= 0; i < count; i++) {
             let chosen = Math.floor(Math.random() * tempQuizzes.length);
             chosenQuizzes.push(tempQuizzes[chosen]);
             tempQuizzes.splice(chosen-1, 1);

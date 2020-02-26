@@ -6,16 +6,12 @@ let guessed = false;
 let correctAnswer;
 const questionDiv = document.getElementById("question");
 const answerAlternatives = document.getElementById("answer-alternatives");
-const answerDiv1 = document.getElementById("answer1");
-const answerDiv2 = document.getElementById("answer2");
-const answerDiv3 = document.getElementById("answer3");
-const answerDiv4 = document.getElementById("answer4");
 const result = document.getElementById("result");
 const newQuestionButton = document.getElementById("new-game-btn");
 
 function giveQuestion() {
     result.innerText = "";
-    let quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
+    let quiz = quizzesArr[Math.floor(Math.random() * quizzesArr.length)];
     correctAnswer = quiz.correctAnswer;
     questionDiv.innerText = quiz.question;
     let answersDivs = answerAlternatives.children;
