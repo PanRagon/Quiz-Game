@@ -1,26 +1,49 @@
+
 {
-  "name": "Quiz-Game",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/PanRagon/Quiz-Game.git",
-  "author": "PanRagon <thebigecko@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-loader": "^8.0.6",
-    "env": "^0.0.2",
-    "jest": "^25.1.0",
-    "lodash": "^4.17.15",
-    "webpack": "^4.41.5"
+  "author": "Christian Iversen",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ],
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ]
   },
-  "scripts": {
-    "test": "jest --coverage",
-    "dev": "webpack-dev-server --open -mode development",
-    "build": "webpack --mode production"
+  "dependencies": {
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.3"
-  }
+    "@babel/cli": "7.7.4",
+    "@babel/core": "7.7.4",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/preset-env": "7.7.4",
+    "@babel/preset-react": "7.7.4",
+    "babel-jest": "24.9.0",
+    "babel-loader": "8.0.6",
+    "jest": "24.9.0",
+    "webpack": "4.41.2",
+    "webpack-cli": "3.3.10",
+    "webpack-dev-server": "3.9.0"
+  },
+  "engines": {
+    "node": "^12.0.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "/src/**/*.(js|jsx)"
+    ],
+    "testRegex": "tests/.*-test\\.(js|jsx)$"
+  },
+  "license": "LGPL-3.0",
+  "main": "index.js",
+  "name": "Quiz-Game",
+  "repository": {},
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack-dev-server --open --mode development",
+    "test": "jest --coverage"
+  },
+  "version": "1.0.0"
 }

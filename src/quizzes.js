@@ -24,17 +24,24 @@ function getRandomQuizzes(count) {
         throw new Error("We don't have that many quizzes available, there are only " + quizzes.length + " available");
     } else if(count <= 0) {
         throw "Haha... Please enter a positive number";
-    } else {
-        let chosenQuizzes = [];
-        let tempQuizzes = quizzes;
-        for(let i= 0; i < count; i++) {
-            let chosen = Math.floor(Math.random() * tempQuizzes.length);
-            chosenQuizzes.push(tempQuizzes[chosen]);
-            tempQuizzes.splice(chosen-1, 1);
-        }
-
-        return chosenQuizzes;
     }
+
+    const selection = Array(count);
+
+    let i = 0;
+
+    while (i < count) {
+
+        const k = Math.floor(quizzes.length * Math.random());
+        if (selection.includes(k)) {
+            continue;
+        }
+        selection[i] = k;
+        i++;
+    }
+
+    return Array.from(selection).map(e => quizzes[e]);
+
 }
 
 module.exports.getRandomQuizzes = getRandomQuizzes;
