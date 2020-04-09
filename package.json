@@ -5,13 +5,23 @@
       "@babel/plugin-proposal-class-properties"
     ],
     "presets": [
-      "@babel/env",
+      [
+        "@babel/env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
       "@babel/react"
     ]
   },
   "dependencies": {
+    "express": "4.17.1",
     "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "react-dom": "16.12.0",
+    "react-router": "5.1.2",
+    "react-router-dom": "5.1.2"
   },
   "devDependencies": {
     "@babel/cli": "7.7.4",
@@ -21,11 +31,14 @@
     "@babel/preset-react": "7.7.4",
     "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
+    "concurrently": "5.0.0",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.1",
     "jest": "24.9.0",
     "jsdom": "15.2.1",
+    "nodemon": "2.0.1",
     "react-addons-test-utils": "^15.6.2",
+    "supertest": "4.0.2",
     "webpack": "4.41.2",
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.9.0"
@@ -45,12 +58,15 @@
   },
   "license": "LGPL-3.0",
   "main": "index.js",
-  "name": "part-04",
+  "name": "part-07",
   "repository": {},
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack-dev-server --open --mode development",
-    "test": "jest --coverage"
+    "dev": "concurrently \"yarn watch:client\" \"yarn watch:server\"",
+    "start": "node src/server/server.js",
+    "test": "jest --coverage",
+    "watch:client": "webpack --watch --mode development",
+    "watch:server": "nodemon src/server/server.js --watch src/server --watch public/bundle.js"
   },
   "version": "1.0.0"
 }

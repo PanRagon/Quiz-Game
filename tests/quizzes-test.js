@@ -1,4 +1,4 @@
-const {getRandomQuizzes} = require("../src/quizzes");
+const {getRandomQuizzes} = require("../src/server/db/quizzes");
 
 test("Selects 2 to get 2 random quizzes from the quiz array", () => {
     for(let i=0; i<10; i++) {
@@ -17,11 +17,5 @@ describe("Test input larger than quiz array", () => {
 describe("Test negative integer as input", () => {
     it("Should throw error if given negative integers as input", () => {
         expect(() => getRandomQuizzes(-1)).toThrow();
-    })
-});
-
-describe("Test not a number as input", () => {
-    it("Should throw error if given NaN as input", () => {
-        expect(() => getRandomQuizzes("I just want a list of quizzes, please")).toThrow();
     })
 });

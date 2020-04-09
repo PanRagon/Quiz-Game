@@ -2,26 +2,26 @@ const quizzes = [
     {
         question: "Who created Javascript?",
         answers: ["Brendan Eich", "Jacob Eich", "Brandon Lake", "James Gosling"],
-        correctAnswer: 0
+        correctAnswer: 0,
+        id: 0
     },
     {
         question: "What company owns Github?",
         answers: ["Apple", "Amazon", "Microsoft", "Git"],
-        correctAnswer: 2
+        correctAnswer: 2,
+        id: 1
     },
     {
         question: "Who's Joe?",
         answers: ["Joe Pesci", "Joe Mama!", "Joseph Stalin", "Joe Biden"],
-        correctAnswer: 1
+        correctAnswer: 1,
+        id: 2
     }
 ];
 
 function getRandomQuizzes(count) {
-    count = parseInt(count);
-    if(count === "NaN") {
-        throw new Error("Please enter a valid number");
-    } else if(count > quizzes.length) {
-        throw new Error("We don't have that many quizzes available, there are only " + quizzes.length + " available");
+    if(count > quizzes.length) {
+        throw "We don't have that many quizzes available, there are only " + quizzes.length + " available";
     } else if(count <= 0) {
         throw "Haha... Please enter a positive number";
     }
@@ -44,4 +44,4 @@ function getRandomQuizzes(count) {
 
 }
 
-module.exports.getRandomQuizzes = getRandomQuizzes;
+module.exports = {quizzes, getRandomQuizzes};
