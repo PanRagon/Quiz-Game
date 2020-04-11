@@ -1,4 +1,4 @@
-const {getRandomQuizzes} = require("../src/server/db/quizzes");
+const {getRandomQuizzes} = require("../../../src/server/db/quizzes");
 
 test("Selects 2 to get 2 random quizzes from the quiz array", () => {
     for(let i=0; i<10; i++) {

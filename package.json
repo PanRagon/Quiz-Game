@@ -1,5 +1,5 @@
 {
-  "author": "Andrea Arcuri",
+  "author": "Christian N. Iversen",
   "babel": {
     "plugins": [
       "@babel/plugin-proposal-class-properties"
@@ -18,6 +18,9 @@
   },
   "dependencies": {
     "express": "4.17.1",
+    "express-session": "1.17.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-router": "5.1.2",
@@ -58,7 +61,7 @@
   },
   "license": "LGPL-3.0",
   "main": "index.js",
-  "name": "part-07",
+  "name": "part-08",
   "repository": {},
   "scripts": {
     "build": "webpack --mode production",
