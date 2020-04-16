@@ -1,17 +1,34 @@
-const React = require("react");
-const { mount } = require("enzyme");
-const { Match } = require("../../src/client/match");
-const { quizzes } = require("../../src/server/db/quizzes");
+const React = require('react');
+const {mount} = require('enzyme');
+const {Match} = require("../../src/client/match");
+const {quizzes} = require("../../src/server/db/quizzes");
+const {overrideFetch, asyncCheckCondition} = require('../mytest-utils');
+const app = require('../../src/server/app');
+const {deleteAllUsers} = require("../../src/server/db/users");
+
+beforeEach(() => {
+    deleteAllUsers();
+});
+
+async function register(id, password) {
+
+    const response = await fetch("/api/register", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({id, password})
+    });
+
+    return response.status === 201;
+}
 
 function checkQuizIsDisplayed(driver)  {
     const quiz = driver.find(".quiz");
-    expect(quiz.length).toEqual(1);
-
     const question = driver.find(".question");
-    expect(question.length).toEqual(1);
-
     const answers = driver.find(".answerTags");
-    expect(answers.length).toEqual(4);
+
+    return quiz.length === 1 && question.length === 1 && answers.length === 4;
 }
 
 function getDisplayedQuiz(driver) {
@@ -24,29 +41,39 @@ function getDisplayedQuiz(driver) {
     return quiz;
 }
 
-test("Enzyme rendered Question", () => {
-    const driver = mount(<Match/>);
-    checkQuizIsDisplayed(driver);
+async function waitForQuizDisplay(driver) {
+
+    const displayed = await asyncCheckCondition(() => {
+        driver.update();
+        return checkQuizIsDisplayed(driver);
+    }, 2000, 200);
+
+    return displayed;
+}
+
+test("Test question is rendered", async () => {
+    overrideFetch(app);
+
+    const registered = await register("foo", "bar");
+    expect(registered).toEqual(true);
+
+    const driver = mount(<Match props={{user: {id: "foo", password: "bar", victories: 0, defeats: 0}}}/>);
+
+    const displayed = await waitForQuizDisplay(driver);
+
+    expect(displayed).toEqual(true);
 });
 
 
-test("Clicking answer does change state", () => {
 
-    const driver = mount(<Match/>);
 
-    const prev = driver.state();
+test("Test do answer incorrectly", async () => {
 
-    const first = driver.find(".answerTags").at(0);
-    first.simulate("click");
+    overrideFetch(app);
 
-    const current = driver.state();
-    expect(current).not.toEqual(prev);
-});
-
-test("Test do answer incorrectly", () => {
-    const driver = mount(<Match/>);
-
-    checkQuizIsDisplayed(driver);
+    await register("foo", "bar");
+    const driver = mount(<Match props={{user: {id: "foo", password: "bar", victories: 0, defeats: 0}}}/>);
+    await waitForQuizDisplay(driver);
 
     const quiz = getDisplayedQuiz(driver);
     const wrong = (quiz.correctAnswer + 1) % 4;
@@ -62,10 +89,13 @@ test("Test do answer incorrectly", () => {
 
 });
 
-test("Test do answer correctly", () => {
-    const driver = mount(<Match/>);
+test("Test do answer correctly", async () => {
 
-    checkQuizIsDisplayed(driver);
+    overrideFetch(app);
+
+    await register("foo", "bar");
+    const driver = mount(<Match props={{user: {id: "foo", password: "bar", victories: 0, defeats: 0}}}/>);
+    await waitForQuizDisplay(driver);
 
     const quiz = getDisplayedQuiz(driver);
     const correct = quiz.correctAnswer;
@@ -79,20 +109,28 @@ test("Test do answer correctly", () => {
     expect(lost).toEqual(false);
     expect(won).toEqual(false);
 
-    checkQuizIsDisplayed(driver);
+    //Game should still be playing
+    const displayed= await waitForQuizDisplay(driver);
+    expect(displayed).toEqual(true);
 });
 
-test("Test win match", () => {
-    const driver = mount(<Match/>);
+test("Test win match", async () => {
 
-    checkQuizIsDisplayed(driver);
+    overrideFetch(app);
 
+    await register("foo", "bar");
+    const driver = mount(<Match props={{user: {id: "foo", password: "bar", victories: 0, defeats: 0}}}/>);
+    await waitForQuizDisplay(driver);
+
+    const quiz = getDisplayedQuiz(driver);
     for(let i=0; i<3; i++) {
         const quiz = getDisplayedQuiz(driver);
         const correct = quiz.correctAnswer;
 
         const correctAnswer = driver.find(".answerTags").at(correct);
         correctAnswer.simulate("click");
+
+        driver.update();
     }
 
     const lost = driver.html().includes("Lost");
